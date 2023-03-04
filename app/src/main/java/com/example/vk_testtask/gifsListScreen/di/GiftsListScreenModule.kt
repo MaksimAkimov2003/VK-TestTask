@@ -1,18 +1,20 @@
 package com.example.vk_testtask.gifsListScreen.di
 
-import com.example.vk_testtask.gifsListScreen.data.api.provideGifsService
-import com.example.vk_testtask.gifsListScreen.data.api.provideLoggingInterceptor
-import com.example.vk_testtask.gifsListScreen.data.api.provideMoshi
-import com.example.vk_testtask.gifsListScreen.data.api.provideOkHttpClient
+import com.example.vk_testtask.gifsListScreen.data.api.createGifsService
+import com.example.vk_testtask.gifsListScreen.data.repository.GifsRepository
+import com.example.vk_testtask.gifsListScreen.domain.useCase.GetGifsUseCase
+import com.example.vk_testtask.gifsListScreen.presentation.GifsViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val giftsListScreenModule = module {
-	single { provideLoggingInterceptor() }
-	single { provideOkHttpClient(loggingInterceptor = get()) }
-	single { provideMoshi() }
-	single { provideGifsService(okHttpClient = get(), moshi = get()) }
+	single { createGifsService(retrofit = get()) }
 
-//	single { GifsRepository(api = get()) }
+	single { GifsRepository(api = get()) }
 
-//	factory { GetGifsUseCase(gifsRepository = get()) }
+	factory { GetGifsUseCase(gifsRepository = get()) }
+
+	viewModel {
+		GifsViewModel(getGifsUseCase = get())
+	}
 }

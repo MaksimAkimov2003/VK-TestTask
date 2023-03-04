@@ -1,11 +1,11 @@
-package com.example.vk_testtask.gifsListScreen.data.api
+package com.example.vk_testtask.retrofite
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.example.vk_testtask.BuildConfig
+import com.example.vk_testtask.gifsListScreen.data.api.GifsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 fun provideLoggingInterceptor(): HttpLoggingInterceptor {
 	val loggingInterceptor = HttpLoggingInterceptor()
@@ -19,15 +19,11 @@ fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClien
 		.addInterceptor(loggingInterceptor)
 		.build()
 
-fun provideMoshi(): Moshi = Moshi.Builder()
-	.add(KotlinJsonAdapterFactory())
-	.build()
-
-fun provideGifsService(okHttpClient: OkHttpClient, moshi: Moshi): GifsService =
+fun provideRetrofit(okHttpClient: OkHttpClient): GifsService =
 	Retrofit.Builder()
 		.run {
-			baseUrl("https://api.giphy.com/")
+			baseUrl(BuildConfig.BASE_URL)
 			client(okHttpClient)
-			addConverterFactory(MoshiConverterFactory.create(moshi))
+			addConverterFactory(GsonConverterFactory.create())
 			build()
 		}.create(GifsService::class.java)

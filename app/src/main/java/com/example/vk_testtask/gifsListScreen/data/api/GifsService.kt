@@ -1,5 +1,7 @@
 package com.example.vk_testtask.gifsListScreen.data.api
 
+import com.example.vk_testtask.BuildConfig
+import com.example.vk_testtask.gifsListScreen.data.model.GifModelList
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -8,7 +10,7 @@ interface GifsService {
 	@GET("/v1/gifs/search")
 	suspend fun getListOfGifs(
 		@Query("api_key")
-		apiKey: String = "9IjGBEe14waZZaSjBiE5J9DPogGh9zLU",
+		apiKey: String = BuildConfig.API_KEY,
 
 		@Query("q")
 		userResponse: String,
@@ -24,6 +26,6 @@ interface GifsService {
 
 		@Query("lang")
 		language: String = "en"
-	)
+	): GifModelList
 
 }

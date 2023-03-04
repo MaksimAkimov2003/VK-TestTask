@@ -1,6 +1,7 @@
 package com.example.vk_testtask
 
 import android.app.Application
+import com.example.vk_testtask.gifsDetailsScreen.gifsDetailsScreenModule
 import com.example.vk_testtask.gifsListScreen.di.giftsListScreenModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -15,7 +16,11 @@ class App : Application() {
 		startKoin {
 			androidLogger(Level.ERROR)
 			androidContext(this@App)
-			modules(giftsListScreenModule)
+			modules(
+				giftsListScreenModule,
+				gifsDetailsScreenModule,
+				appModule
+			)
 		}
 	}
 }
